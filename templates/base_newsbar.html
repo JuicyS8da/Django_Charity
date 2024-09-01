@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block main %}
+        <main>
+
+            <section class="news-detail-header-section text-center">
+                <div class="section-overlay"></div>
+
+                <div class="container">
+                    <div class="row">
+
+                        <div class="col-lg-12 col-12">
+                            {% if searched %}
+                            <h1 class="text-white">News, related to "{{searched}}"</h1>
+                            {% else %}
+                            <h1 class="text-white">News</h1>
+                            {% endif %}
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <section class="news-section section-padding">
+                <div class="container">
+                    <div class="row">
+
+                        {% block col-lg-7 %} {% endblock %}
+
+                        <div class="col-lg-4 col-12 mx-auto mt-4 mt-lg-0">
+                            <form class="custom-form search-form" action="{% url 'search' %}" method="post" role="form">
+                                {% csrf_token %}
+                                <input class="form-control" type="search" placeholder="Search" aria-label="Search" name="searched">
+
+                                <button type="submit" class="form-control">
+                                    <i class="bi-search"></i>
+                                </button>
+                            </form>
+
+                            <h5 class="mt-5 mb-3">Recent news</h5>
+
+                            {% for post in recent_news %}
+                            <div class="news-block news-block-two-col d-flex mt-4">
+                                <div class="news-block-two-col-image-wrap">
+                                    <a href="{{ post.get_absolute_url }}">
+                                        <img src="{{ post.picture.url }}" class="news-image img-fluid" alt="">
+                                    </a>
+                                </div>
+
+                                <div class="news-block-two-col-info">
+                                    <div class="news-block-title mb-2">
+                                        <h6><a href="{{ post.get_absolute_url }}" class="news-block-title-link">{{ post.title }}</a></h6>
+                                    </div>
+
+                                    <div class="news-block-date">
+                                        <p>
+                                            <i class="bi-calendar4 custom-icon me-1"></i>
+                                            {{ post.creation_date|date:'d M, Y' }}
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+
+                            <div class="category-block d-flex flex-column">
+                                <h5 class="mb-3">Categories</h5>
+
+                                {% for category in categories %}
+                                <a href="{{ category.get_absolute_url }}" class="category-block-link">
+                                    {{ category.name }}
+                                    <span class="badge">{{ category.post_count }}</span>
+                                </a>
+                                {% endfor %}
+                            </div>
+
+                            <div class="tags-block">
+                                <h5 class="mb-3">Tags</h5>
+                                {% for tag in tags %}
+                                <a href="{{ tag.get_absolute_url }}" class="tags-block-link">
+                                    {{ tag.name }}
+                                </a>
+                                {% endfor %}
+                            </div>
+
+                            <form class="custom-form subscribe-form" action="#" method="post" role="form">
+                                <h5 class="mb-4">Newsletter Form</h5>
+
+                                <input type="email" name="subscribe-email" id="subscribe-email" pattern="[^ @]*@[^ @]*" class="form-control" placeholder="Email Address" required>
+
+                                <div class="col-lg-12 col-12">
+                                    <button type="submit" class="form-control">Subscribe</button>
+                                </div>
+                            </form>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+            
+            {% block related_news %} {% endblock %}
+
+        </main>
+{% endblock %}
+
+{% block js %}
+        <!-- JAVASCRIPT FILES -->
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <script src="js/jquery.sticky.js"></script>
+        <script src="js/counter.js"></script>
+        <script src="js/custom.js"></script>
+{% endblock %}
