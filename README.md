@@ -1,5 +1,8 @@
 **DJANGO CHARITY SITE**
 
+![5380108367386765337](https://github.com/user-attachments/assets/c0025cd8-7140-43fa-b0c6-7c2aa505fc85)
+
+
 In this project I made a functional website with various interesting features, such as:
 - Stripe Donations
 - Blog with search, category and tag filters
